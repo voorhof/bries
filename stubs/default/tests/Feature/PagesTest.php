@@ -20,15 +20,4 @@ class PagesTest extends TestCase
 
         $response->assertOk();
     }
-
-    public function test_cheatsheet_page_is_displayed(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->get('/cheatsheet');
-
-        $response->assertOk();
-    }
 }

@@ -20,8 +20,9 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      */
     protected $signature = 'bries:install
                                 {dark : Indicate that dark mode support should be installed}
-                                {pest : Indicate that Pest should be installed}
+                                {grid : Indicate that CSS grid classes should be installed}
                                 {cheatsheet : Indicate that a cheatsheet page should be installed}
+                                {pest : Indicate that Pest should be installed}
                                 {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
     /**
@@ -50,7 +51,23 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     {
         return [
             'dark' => fn () => select(
-                label: 'Would you like dark mode support?',
+                label: 'Would you like to install CSS dark mode classes?',
+                options: [
+                    1 => 'Yes',
+                    0 => 'No',
+                ],
+                default: 1,
+            ),
+            'grid' => fn () => select(
+                label: 'Would you like to install CSS grid classes?',
+                options: [
+                    1 => 'Yes',
+                    0 => 'No',
+                ],
+                default: 0,
+            ),
+            'cheatsheet' => fn () => select(
+                label: 'Would you like to include a Bootstrap CSS cheatsheet page?',
                 options: [
                     1 => 'Yes',
                     0 => 'No',
@@ -65,14 +82,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
                 ],
                 default: 1,
             ),
-            'cheatsheet' => fn () => select(
-                label: 'Would you like to include a cheatsheet page?',
-                options: [
-                    1 => 'Yes',
-                    0 => 'No',
-                ],
-                default: 1,
-            ),
         ];
     }
 
@@ -83,33 +92,18 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      */
     protected function InstallsBootstrapStack(): ?int
     {
-        /*
-        if ($this->argument('dark')) {
-            $this->components->error('DARK OPTION SELECTED');
-//            return 1;
-        }
-        if ($this->argument('pest')) {
-            $this->components->error('PEST OPTION SELECTED');
-//            return 1;
-        }
-        if ($this->argument('cheatsheet')) {
-            $this->components->error('CHEATSHEET OPTION SELECTED');
-//            return 1;
-        }
-        */
-
         // Start installation
-        $this->components->info('(step 0/XYZ) Starting installation...');
+        $this->components->info('(step 0/4) Starting installation...');
 
         // Copy files
-        $this->components->info('(step 1/XYZ) Copying starter kit files...');
+        $this->components->info('(step 1/4) Copying starter kit files...');
         if (! $this->copyFiles()) {
             $this->components->error('File copy failed!');
             return 1;
         }
 
         // Setup testing
-        $this->components->info ('(step 2/XYZ) Setting up testunit...');
+        $this->components->info ('(step 2/4) Setting up testunit...');
         if (! $this->installTests()) {
             $this->components->error('Installation testunit failed!');
             return 1;
@@ -118,7 +112,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         $this->line('');
 
         // NPM Packages
-        $this->components->info ('(step 3/XYZ) Updating node packages...');
+        $this->components->info ('(step 3/4) Updating node packages...');
         $this->updateNodePackages(function () {
             return [
                 '@popperjs/core' => '^2.11.8',
@@ -135,7 +129,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         });
 
         // Compile
-        $this->components->info ('(step 4/XYZ) Compiling node packages...');
+        $this->components->info ('(step 4/4) Compiling node packages...');
         if (! $this->compileNodePackages()) {
             $this->components->error('Compiling failed!');
             return 1;
@@ -189,11 +183,34 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         copy(__DIR__.'/../../../stubs/default/postcss.config.js', base_path('postcss.config.js'));
         copy(__DIR__.'/../../../stubs/default/vite.config.js', base_path('vite.config.js'));
 
+        // Cheatsheet option
+        if ($this->argument('cheatsheet')) {
+            copy(__DIR__.'/../../../stubs/cheatsheet/app/Http/Controllers/PageController.php', app_path('Http/Controllers/PageController.php'));
+            copy(__DIR__.'/../../../stubs/cheatsheet/resources/views/layouts/navbar.blade.php', resource_path('views/layouts/navbar.blade.php'));
+            copy(__DIR__.'/../../../stubs/cheatsheet/routes/web.php', base_path('routes/web.php'));
+
+            if ($this->argument('dark')) {
+                copy(__DIR__.'/../../../stubs/dark/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
+            } else {
+                copy(__DIR__.'/../../../stubs/cheatsheet/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
+            }
+        }
+
+        // CSS dark mode option
+        if ($this->argument('dark')) {
+            $this->replaceInFile('$enable-dark-mode: false;', '$enable-dark-mode: true;', resource_path('scss/bootstrap.scss'));
+        }
+
+        // CSS grid option
+        if ($this->argument('grid')) {
+            $this->replaceInFile('$enable-cssgrid: false;', '$enable-cssgrid: true;', resource_path('scss/bootstrap.scss'));
+        }
+
         return true;
     }
 
     /**
-     * Copy test files based on the given argument.
+     * Copy testsuite files based on the given argument.
      *
      * @return bool
      */
@@ -371,5 +388,18 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         $process->run(function ($type, $line) {
             $this->output->write('    '.$line);
         });
+    }
+
+    /**
+     * Replace a given string within a given file.
+     *
+     * @param string $search
+     * @param string $replace
+     * @param string $path
+     * @return void
+     */
+    protected function replaceInFile(string $search, string $replace, string $path): void
+    {
+        file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
 }

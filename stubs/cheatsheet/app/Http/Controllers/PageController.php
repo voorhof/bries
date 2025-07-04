@@ -21,4 +21,12 @@ class PageController extends Controller
     {
         return view('dashboard');
     }
+
+    /**
+     * Show the cheatsheet page.
+     */
+    public function cheatsheet(): View
+    {
+        return view('cheatsheet');
+    }
 }

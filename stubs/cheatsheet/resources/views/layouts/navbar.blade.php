@@ -19,6 +19,10 @@
                     {{ __('Dashboard') }}
                 </x-nav-link>
 
+                <x-nav-link :href="route('cheatsheet')" :active="request()->routeIs('cheatsheet')">
+                    {{ __('Cheatsheet') }}
+                </x-nav-link>
+
                 <x-nav-link href="#">
                     {{ __('Link') }}
                 </x-nav-link>

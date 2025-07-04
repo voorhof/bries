@@ -1,4 +1,132 @@
 <x-app-layout>
+    {{-- Cheatsheet CSS --}}
+    @push('head-scripts')
+        <style>
+            .dc-cheatsheet {
+                position: relative;
+                z-index: 0;
+                padding: 0
+            }
+
+            .dc-cheatsheet__aside a {
+                padding: .1875rem .5rem;
+                margin-top: .125rem;
+                margin-left: .3125rem;
+                color: var(--dc-body-color)
+            }
+
+            .dc-cheatsheet__aside a:hover,.dc-cheatsheet__aside a:focus {
+                color: var(--dc-body-color);
+                background-color: #7952b31a
+            }
+
+            .dc-cheatsheet__aside .active {
+                font-weight: 600;
+                color: var(--dc-body-color)
+            }
+
+            .dc-cheatsheet__aside .btn {
+                padding: .25rem .5rem;
+                font-weight: 600;
+                color: var(--dc-body-color)
+            }
+
+            .dc-cheatsheet__aside .btn:hover,.dc-cheatsheet__aside .btn:focus {
+                color: var(--dc-body-color);
+                background-color: #7952b31a
+            }
+
+            .dc-cheatsheet__aside .btn:focus {
+                box-shadow: 0 0 0 1px #7952b3b3
+            }
+
+            .dc-cheatsheet__aside .btn:before {
+                width: 1.25em;
+                line-height: 0;
+                content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+                transition: transform .35s ease;
+                transform-origin: .5em 50%
+            }
+
+            .dc-cheatsheet__aside .btn[aria-expanded=true]:before {
+                transform: rotate(90deg)
+            }
+
+            .dc-cheatsheet__examples [id=modal] .dc-cheatsheet__example-content .btn,.dc-cheatsheet__examples [id=buttons] .dc-cheatsheet__example-content .btn,.dc-cheatsheet__examples [id=tooltips] .dc-cheatsheet__example-content .btn,.dc-cheatsheet__examples [id=popovers] .dc-cheatsheet__example-content .btn,.dc-cheatsheet__examples [id=dropdowns] .dc-cheatsheet__example-content .btn-group,.dc-cheatsheet__examples [id=dropdowns] .dc-cheatsheet__example-content .dropdown,.dc-cheatsheet__examples [id=dropdowns] .dc-cheatsheet__example-content .dropup,.dc-cheatsheet__examples [id=dropdowns] .dc-cheatsheet__example-content .dropend,.dc-cheatsheet__examples [id=dropdowns] .dc-cheatsheet__example-content .dropstart {
+                margin: 0 1rem 1rem 0
+            }
+
+            .dc-cheatsheet__examples .dc-cheatsheet__placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none
+            }
+
+            .dc-cheatsheet__examples .dc-cheatsheet__scrollspy-example {
+                height: 200px
+            }
+
+            .dc-cheatsheet__example-heading+div>*+* {
+                margin-top: 3rem
+            }
+
+            @media (min-width: 768px) {
+                .dc-cheatsheet__examples .dc-cheatsheet__placeholder-img-lg {
+                    font-size:3.5rem
+                }
+            }
+
+            @media (min-width: 1200px) {
+                .dc-cheatsheet {
+                    display:grid;
+                    grid-template-rows: auto;
+                    grid-template-columns: 1fr 4fr 1fr;
+                    gap: 1rem
+                }
+
+                .dc-cheatsheet__examples,.dc-cheatsheet__examples section,.dc-cheatsheet__example {
+                    display: inherit;
+                    grid-template-rows: auto;
+                    grid-template-columns: 1fr 4fr;
+                    grid-column: 1/span 2;
+                    gap: inherit
+                }
+
+                .dc-cheatsheet__aside {
+                    grid-area: 1/3;
+                    top: 2rem;
+                    scroll-margin-top: 2rem
+                }
+
+                .dc-cheatsheet__examples section,.dc-cheatsheet__examples section>h2,.dc-cheatsheet__examples section>.h2 {
+                    top: 2rem;
+                    scroll-margin-top: 2rem
+                }
+
+                .dc-cheatsheet__examples section>h2:before,.dc-cheatsheet__examples section>.h2:before {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: -2rem;
+                    left: 0;
+                    z-index: -1;
+                    content: ""
+                }
+
+                .dc-cheatsheet__example,.dc-cheatsheet__example-heading {
+                    top: 6rem;
+                    scroll-margin-top: 6rem
+                }
+
+                .dc-cheatsheet__example-heading {
+                    z-index: 1
+                }
+            }
+        </style>
+    @endpush
+
     <x-slot:header>
         <h1 class="mb-2">
             <i class="bi bi-bootstrap-fill text-primary me-1"></i>
@@ -2569,4 +2697,168 @@
             }
         </script>
     @endpush
+
+    {{-- Theme switcher --}}
+    @push('head-scripts')
+        <script>
+            /*!
+             * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
+             * Copyright 2011-2025 The Bootstrap Authors
+             * Licensed under the Creative Commons Attribution 3.0 Unported License.
+             */
+
+            (() => {
+                'use strict'
+
+                const getStoredTheme = () => localStorage.getItem('theme')
+                const setStoredTheme = theme => localStorage.setItem('theme', theme)
+
+                const getPreferredTheme = () => {
+                    const storedTheme = getStoredTheme()
+                    if (storedTheme) {
+                        return storedTheme
+                    }
+
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+                }
+
+                const setTheme = theme => {
+                    if (theme === 'auto') {
+                        document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
+                    } else {
+                        document.documentElement.setAttribute('data-bs-theme', theme)
+                    }
+                }
+
+                setTheme(getPreferredTheme())
+
+                const showActiveTheme = (theme, focus = false) => {
+                    const themeSwitcher = document.querySelector('#bd-theme')
+
+                    if (!themeSwitcher) {
+                        return
+                    }
+
+                    const themeSwitcherText = document.querySelector('#bd-theme-text')
+                    const activeThemeIcon = document.querySelector('.theme-icon-active use')
+                    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+                    const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+
+                    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+                        element.classList.remove('active')
+                        element.setAttribute('aria-pressed', 'false')
+                    })
+
+                    btnToActive.classList.add('active')
+                    btnToActive.setAttribute('aria-pressed', 'true')
+                    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+                    const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
+                    themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
+
+                    if (focus) {
+                        themeSwitcher.focus()
+                    }
+                }
+
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                    const storedTheme = getStoredTheme()
+                    if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                        setTheme(getPreferredTheme())
+                    }
+                })
+
+                window.addEventListener('DOMContentLoaded', () => {
+                    showActiveTheme(getPreferredTheme())
+
+                    document.querySelectorAll('[data-bs-theme-value]')
+                        .forEach(toggle => {
+                            toggle.addEventListener('click', () => {
+                                const theme = toggle.getAttribute('data-bs-theme-value')
+                                setStoredTheme(theme)
+                                setTheme(theme)
+                                showActiveTheme(theme, true)
+                            })
+                        })
+                })
+            })()
+        </script>
+        <style>
+            .dc-cheatsheet__themeswitch-toggle {
+                z-index: 1500
+            }
+
+            .dc-cheatsheet__themeswitch-toggle .dc-cheatsheet__themeswitch-btn {
+                --dc-violet-bg: #712cf9;
+                --dc-violet-rgb: 112.520718, 44.062154, 249.437846;
+                --dc-btn-font-weight: 600;
+                --dc-btn-color: var(--dc-white);
+                --dc-btn-bg: var(--dc-violet-bg);
+                --dc-btn-border-color: var(--dc-violet-bg);
+                --dc-btn-hover-color: var(--dc-white);
+                --dc-btn-hover-bg: #6528e0;
+                --dc-btn-hover-border-color: #6528e0;
+                --dc-btn-focus-shadow-rgb: var(--dc-violet-rgb);
+                --dc-btn-active-color: var(--dc-btn-hover-color);
+                --dc-btn-active-bg: #5a23c8;
+                --dc-btn-active-border-color: #5a23c8
+            }
+
+            .dc-cheatsheet__themeswitch-toggle .bi {
+                width: 1em;
+                height: 1em;
+                vertical-align: -.125em;
+                fill: currentColor
+            }
+
+            .dc-cheatsheet__themeswitch-toggle .dropdown-menu .active .bi {
+                display: block!important
+            }
+        </style>
+    @endpush
+    <div class="dc-cheatsheet__themeswitch-toggle dropdown position-fixed bottom-0 end-0 mb-3 me-3">
+        <button class="btn dc-cheatsheet__themeswitch-btn py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (light)">
+            <svg class="bi my-1 theme-icon-active" aria-hidden="true"><use href="#sun-fill"></use></svg>
+            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+            <li>
+                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+                    <svg class="bi me-2 opacity-50" aria-hidden="true"><use href="#sun-fill"></use></svg>
+                    Light
+                    <svg class="bi ms-auto d-none" aria-hidden="true"><use href="#check2"></use></svg>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                    <svg class="bi me-2 opacity-50" aria-hidden="true"><use href="#moon-stars-fill"></use></svg>
+                    Dark
+                    <svg class="bi ms-auto d-none" aria-hidden="true"><use href="#check2"></use></svg>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                    <svg class="bi me-2 opacity-50" aria-hidden="true"><use href="#circle-half"></use></svg>
+                    Auto
+                    <svg class="bi ms-auto d-none" aria-hidden="true"><use href="#check2"></use></svg>
+                </button>
+            </li>
+        </ul>
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+            <symbol id="check2" viewBox="0 0 16 16">
+                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
+            </symbol>
+            <symbol id="circle-half" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
+            </symbol>
+            <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+                <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
+            </symbol>
+            <symbol id="sun-fill" viewBox="0 0 16 16">
+                <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"></path>
+            </symbol>
+        </svg>
+    </div>
 </x-app-layout>

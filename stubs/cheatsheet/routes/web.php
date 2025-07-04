@@ -14,6 +14,7 @@ Route::get('/', [PageController::class, 'welcome'])->name('welcome');
  */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+    Route::get('/cheatsheet', [PageController::class, 'cheatsheet'])->name('cheatsheet');
 });
 
 /**
