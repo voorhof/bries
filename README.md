@@ -1,10 +1,10 @@
 # Bries starter kit for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/voorhof/bries.svg?style=flat-square)](https://packagist.org/packages/voorhof/bries)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/voorhof/bries/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/voorhof/bries/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/voorhof/bries/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/voorhof/bries/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/voorhof/bries.svg?style=flat-square)](https://packagist.org/packages/voorhof/bries)
 
-This is a Bootstrap CSS starter kit for Laravel (12).  
+This is a starter kit for Laravel (12) using the [Bootstrap](https://getbootstrap.com/) frontend toolkit.  
 Heavily inspired on the breeze + blade package option from https://github.com/laravel/breeze
 
 ## Installation
@@ -36,11 +36,10 @@ An example of a theme switch toggler can be found on the cheatsheet page.
 
 ## Credits
 
-- [David Carton](https://github.com/Voorhof)
+- [David Carton](https://github.com/voorhof)
 - [Taylor Otwell](https://github.com/taylorotwell) for the big inspiration!
 - [All Contributors](https://github.com/voorhof/bries/contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-

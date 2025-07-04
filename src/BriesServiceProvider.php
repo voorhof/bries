@@ -8,39 +8,43 @@ use Illuminate\Support\ServiceProvider;
 
 class BriesServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
+/**
+ * Register services.
+ *
+ * @return void
+ */
+public function register()
+{
+    //
+}
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallBriesCommand::class,
-            ]);
-        }
-    }
 
-    /**
-     * DeferrableProvider services.
-     *
-     * @return array
-     */
-    public function provides(): array
-    {
-        return [
+
+/**
+ * Bootstrap services.
+ *
+ * @return void
+ */
+public function boot(): void
+{
+    if ($this->app->runningInConsole()) {
+        $this->commands([
             InstallBriesCommand::class,
-        ];
+        ]);
     }
+}
+
+
+
+/**
+ * DeferrableProvider services.
+ *
+ * @return array
+ */
+public function provides(): array
+{
+    return [
+        InstallBriesCommand::class,
+    ];
+}
 }
