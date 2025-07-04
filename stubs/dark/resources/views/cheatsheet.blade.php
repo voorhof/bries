@@ -2,11 +2,11 @@
     {{-- Cheatsheet CSS --}}
     @push('head-scripts')
         <style>
-            .dc-cheatsheet {
-                position: relative;
-                z-index: 0;
-                padding: 0
-            }
+.dc-cheatsheet {
+    position: relative;
+    z-index: 0;
+    padding: 0
+}
 
             .dc-cheatsheet__aside a {
                 padding: .1875rem .5rem;
@@ -127,16 +127,16 @@
         </style>
     @endpush
 
-    <x-slot:header>
-        <h1 class="mb-2">
-            <i class="bi bi-bootstrap-fill text-primary me-1"></i>
-            {{ __('CSS Cheatsheet') }}
-        </h1>
+<x-slot:header>
+    <h1 class="mb-2">
+        <i class="bi bi-bootstrap-fill text-primary me-1"></i>
+        {{ __('CSS Cheatsheet') }}
+    </h1>
 
-        <a href="https://getbootstrap.com/docs/5.3/" target="_blank">
-            getbootstrap.com/docs/5.3
-        </a>
-    </x-slot:header>
+    <a href="https://getbootstrap.com/docs/5.3/" target="_blank">
+        getbootstrap.com/docs/5.3
+    </a>
+</x-slot:header>
 
     {{-- Cheatsheet --}}
     <div class="dc-cheatsheet container">

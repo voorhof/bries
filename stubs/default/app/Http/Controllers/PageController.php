@@ -22,3 +22,5 @@ class PageController extends Controller
         return view('dashboard');
     }
 }
+
+

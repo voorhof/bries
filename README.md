@@ -5,11 +5,11 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/voorhof/bries.svg?style=flat-square)](https://packagist.org/packages/voorhof/bries)
 
 This is a starter kit for Laravel (12) using the [Bootstrap](https://getbootstrap.com/) frontend toolkit.  
-Heavily inspired on the breeze + blade package option from https://github.com/laravel/breeze
+Heavily inspired on the breeze + blade package option from [Laravel Breeze](https://github.com/laravel/breeze).
 
 ## Installation
 
-This package should only be used within a fresh laravel installation.  
+This package should only be used within a fresh Laravel installation.  
 You can install the package via composer:
 
 ```bash
@@ -17,22 +17,22 @@ composer require voorhof/bries --dev
 ```
 
 Run this command to setup the starter kit,  
-it will copy all necessary resource files to your app:
+it will copy all necessary resource files to your app and update existing ones:
 
 ```bash
 php artisan bries:install
 ```
 
 When you choose to include the CSS grid or dark mode, it will set a root variable.   
-This can always be updated after installation, inside the bootstrap stylesheet:
+This can always be updated after installation inside the bootstrap.scss file:
 
 ```scss
 $enable-cssgrid: false;
 $enable-dark-mode: false;
 ```
 
-For using the dark mode and switching themes, you can implement a theme toggler of your choice or build one via JavaScript.  
-An example of a theme switch toggler can be found on the cheatsheet page.
+For using the dark mode and switching themes, you can implement a theme toggler of your choice.  
+An example of a theme switch toggler can be found on the cheatsheet page, including its styles and scripts.
 
 ## Credits
 
