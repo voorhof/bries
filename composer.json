@@ -1,0 +1,43 @@
+{
+    "name": "voorhof/bries",
+    "description": "Laravel authentication scaffolding using the Bootstrap frontend toolkit and Blade templating engine.",
+    "keywords": ["laravel", "auth", "starter kit", "bootstrap", "blade"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/voorhof/bries/issues",
+        "source": "https://github.com/voorhof/bries"
+    },
+    "authors": [
+        {
+            "name": "David Carton",
+            "email": "david@notrac.be"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^12.0",
+        "illuminate/filesystem": "^12.0",
+        "illuminate/support": "^12.0",
+        "symfony/console": "^7.0"
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Voorhof\\Bries\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Voorhof\\Bries\\BriesServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
