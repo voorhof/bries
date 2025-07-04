@@ -30,6 +30,3 @@ Route::middleware('auth')->group(function () {
  * Auth Controllers
  */
 require __DIR__.'/auth.php';
-
-
-

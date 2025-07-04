@@ -21,6 +21,3 @@ class PagesTest extends TestCase
         $response->assertOk();
     }
 }
-
-
-
