@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Process\Process;
+
 use function Laravel\Prompts\select;
 
 #[AsCommand(name: 'bries:install')]
@@ -34,8 +35,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Execute the command.
-     *
-     * @return int|null
      */
     public function handle(): ?int
     {
@@ -44,8 +43,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Prompt for user input arguments.
-     *
-     * @return array
      */
     protected function promptForMissingArgumentsUsing(): array
     {
@@ -87,8 +84,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Install the Bootstrap CSS stack.
-     *
-     * @return int|null
      */
     protected function InstallsBootstrapStack(): ?int
     {
@@ -99,20 +94,22 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         $this->components->info('(step 1/4) Copying starter kit files...');
         if (! $this->copyFiles()) {
             $this->components->error('File copy failed!');
+
             return 1;
         }
 
         // Setup testing
-        $this->components->info ('(step 2/4) Setting up testunit...');
+        $this->components->info('(step 2/4) Setting up testunit...');
         if (! $this->installTests()) {
             $this->components->error('Installation testunit failed!');
+
             return 1;
         }
 
         $this->line('');
 
         // NPM Packages
-        $this->components->info ('(step 3/4) Updating node packages...');
+        $this->components->info('(step 3/4) Updating node packages...');
         $this->updateNodePackages(function () {
             return [
                 '@popperjs/core' => '^2.11.8',
@@ -129,48 +126,48 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         });
 
         // Compile
-        $this->components->info ('(step 4/4) Compiling node packages...');
+        $this->components->info('(step 4/4) Compiling node packages...');
         if (! $this->compileNodePackages()) {
             $this->components->error('Compiling failed!');
+
             return 1;
         }
 
         // End installation
         $this->components->success('Installation successful!');
+
         return 0;
     }
 
     /**
      * Copy starter kit files.
-     *
-     * @return bool
      */
     protected function copyFiles(): bool
     {
         // App
-        //// Controllers
+        // // Controllers
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Controllers'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/default/app/Http/Controllers', app_path('Http/Controllers'));
 
-        //// Requests
+        // // Requests
         (new Filesystem)->ensureDirectoryExists(app_path('Http/Requests'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/default/app/Http/Requests', app_path('Http/Requests'));
 
-        //// Components
+        // // Components
         (new Filesystem)->ensureDirectoryExists(app_path('View/Components'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/default/app/View/Components', app_path('View/Components'));
 
         // Resources
-        //// JS
+        // // JS
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/default/resources/js', resource_path('js'));
 
-        //// SCSS (remove existing CSS)
+        // // SCSS (remove existing CSS)
         (new Filesystem)->deleteDirectory(resource_path('css'));
         (new Filesystem)->ensureDirectoryExists(resource_path('scss'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/default/resources/scss', resource_path('scss'));
 
-        //// Views
+        // // Views
         (new Filesystem)->ensureDirectoryExists(resource_path('views'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../../stubs/default/resources/views', resource_path('views'));
 
@@ -211,8 +208,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Copy testsuite files based on the given argument.
-     *
-     * @return bool
      */
     protected function installTests(): bool
     {
@@ -237,8 +232,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Determine whether the project is already using Pest.
-     *
-     * @return bool
      */
     protected function isUsingPest(): bool
     {
@@ -247,9 +240,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Determine if the given Composer package is installed.
-     *
-     * @param string $package
-     * @return bool
      */
     protected function hasComposerPackage(string $package): bool
     {
@@ -261,10 +251,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Installs the given Composer Packages into the application.
-     *
-     * @param array $packages
-     * @param bool $asDev
-     * @return bool
      */
     protected function requireComposerPackages(array $packages, bool $asDev = false): bool
     {
@@ -281,18 +267,14 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         );
 
         return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            }) === 0;
     }
 
     /**
      * Removes the given Composer Packages from the application.
-     *
-     * @param array $packages
-     * @param bool $asDev
-     * @return bool
      */
     protected function removeComposerPackages(array $packages, bool $asDev = false): bool
     {
@@ -309,18 +291,14 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         );
 
         return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            }) === 0;
     }
 
     /**
      * Update the dependencies in the "package.json" file.
-     *
-     * @param callable $callback
-     * @param bool $dev
-     * @return void
      */
     protected static function updateNodePackages(callable $callback, bool $dev = true): void
     {
@@ -347,8 +325,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Compile the node dependencies with Vite.
-     *
-     * @return bool
      */
     protected function compileNodePackages(): bool
     {
@@ -369,9 +345,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Run the given commands.
-     *
-     * @param array $commands
-     * @return void
      */
     protected function runCommands(array $commands): void
     {
@@ -392,11 +365,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
 
     /**
      * Replace a given string within a given file.
-     *
-     * @param string $search
-     * @param string $replace
-     * @param string $path
-     * @return void
      */
     protected function replaceInFile(string $search, string $replace, string $path): void
     {
