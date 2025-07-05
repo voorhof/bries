@@ -48,6 +48,7 @@ jobs:
         working-directory: laravel-app
         run: |
           composer create-project laravel/laravel:^${{ matrix.laravel }} .
+          composer require voorhof/bries:@dev --no-interaction --no-update
           composer config repositories.bries '{"type": "path", "url": "../bries"}' --file composer.json
         if: matrix.laravel < 12
 
@@ -55,6 +56,7 @@ jobs:
         working-directory: laravel-app
         run: |
           composer create-project laravel/laravel:dev-master .
+          composer require voorhof/bries:@dev --no-interaction --no-update
           composer config repositories.bries '{"type": "path", "url": "../bries"}' --file composer.json
         if: matrix.laravel == 12
 
@@ -66,7 +68,7 @@ jobs:
       - name: Install Bries
         working-directory: laravel-app
         run: |
-          composer require voorhof/bries:@dev --dev --prefer-dist --no-interaction --no-progress -W
+          composer update "laravel/breeze" --prefer-dist --no-interaction --no-progress -W
           php artisan bries:install ${{ matrix.args }}
 
       - name: Install NPM dependencies
