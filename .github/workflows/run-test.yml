@@ -22,7 +22,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         php: [8.4, 8.3, 8.2]
         laravel: [12]
-        args: ["", --pest]
+        args: [""]
         include:
           - laravel: 12
             testbench: ^10.0
@@ -67,17 +67,22 @@ jobs:
           composer require voorhof/bries:@dev --dev --prefer-dist --no-interaction --no-progress -W
           php artisan bries:install ${{ matrix.args }}
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install NPM dependencies
         working-directory: laravel-app
-        run: npm i
+        run: npm ci --no-interaction
 
       - name: Compile assets
         working-directory: laravel-app
-        run: npm run build
+        run: npm run build --no-interaction
 
       - name: Execute tests
         working-directory: laravel-app
-        run: ${{ matrix.args == '--pest' && 'vendor/bin/pest' || 'vendor/bin/phpunit' }}
+        run: 'vendor/bin/pest'
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
