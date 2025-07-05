@@ -12,8 +12,8 @@ use Symfony\Component\Process\Process;
  *
  * Provides functionality for managing Composer packages and dependencies.
  *
- * @package Voorhof\Bries\Console\Commands
  * @property-read OutputInterface $output
+ *
  * @method void error(string $message)
  * @method void info(string $message)
  * @method mixed option(string $key)
@@ -40,6 +40,7 @@ trait ComposerOperations
                 }
             } catch (Exception $e) {
                 $this->error("Failed to read composer configuration: {$e->getMessage()}");
+
                 return [];
             }
         }
@@ -52,12 +53,14 @@ trait ComposerOperations
      */
     protected function hasComposerPackage(string $package): bool
     {
-        if (!$this->validatePackageName($package)) {
+        if (! $this->validatePackageName($package)) {
             $this->error("Invalid package name format: $package");
+
             return false;
         }
 
         $packages = $this->getComposerConfig();
+
         return array_key_exists($package, $packages['require'] ?? [])
             || array_key_exists($package, $packages['require-dev'] ?? []);
     }
@@ -75,6 +78,7 @@ trait ComposerOperations
                 || $this->isVersionCompatible($requireDevVersion, $version);
         } catch (Exception $e) {
             $this->error("Error checking package version: {$e->getMessage()}");
+
             return false;
         }
     }
@@ -84,6 +88,7 @@ trait ComposerOperations
         if ($actual === null) {
             return false;
         }
+
         // You might want to use Composer's version parser here
         // This is a simplified example
         return version_compare(
@@ -93,20 +98,21 @@ trait ComposerOperations
         );
     }
 
-
     /**
      * Validates and manages Composer packages.
      *
-     * @param array<string> $packages List of packages to manage
-     * @param string $action Action to perform ('require'|'remove')
-     * @param bool $asDev Whether to treat as dev dependency
-     * @throws RuntimeException When Composer operation fails
+     * @param  array<string>  $packages  List of packages to manage
+     * @param  string  $action  Action to perform ('require'|'remove')
+     * @param  bool  $asDev  Whether to treat as dev dependency
      * @return bool Operation success status
+     *
+     * @throws RuntimeException When Composer operation fails
      */
     protected function manageComposerPackages(array $packages, string $action = 'require', bool $asDev = false): bool
     {
-        if (!in_array($action, ['require', 'remove'])) {
+        if (! in_array($action, ['require', 'remove'])) {
             $this->error("Invalid composer action: $action");
+
             return false;
         }
 
@@ -134,14 +140,17 @@ trait ComposerOperations
 
             if ($result !== 0) {
                 $this->error("Composer $action command failed");
+
                 return false;
             }
 
             // Clear the cache after modification
             $this->composerConfig = [];
+
             return true;
         } catch (Exception $e) {
             $this->error("Error during composer $action: {$e->getMessage()}");
+
             return false;
         }
     }

@@ -17,7 +17,7 @@ use function Laravel\Prompts\select;
 #[AsCommand(name: 'bries:install')]
 class InstallBriesCommand extends Command implements PromptsForMissingInput
 {
-    use ComposerOperations, NodePackageOperations, FileOperations;
+    use ComposerOperations, FileOperations, NodePackageOperations;
 
     /**
      * The name and signature of the command.
@@ -96,8 +96,9 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      * - Node package management
      * - Asset compilation
      *
-     * @throws RuntimeException When critical operations fail
      * @return int Exit code (0 for success, 1 for failure)
+     *
+     * @throws RuntimeException When critical operations fail
      */
     protected function installsBootstrapStack(): int
     {
@@ -112,17 +113,19 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
             $this->components->info('Starting installation...');
 
             foreach ($steps as $index => $step) {
-                $this->components->info("(step " . ($index + 1) . "/" . count($steps) . ") {$step['message']}");
+                $this->components->info('(step '.($index + 1).'/'.count($steps).") {$step['message']}");
 
-                if (!$this->{$step['method']}()) {
+                if (! $this->{$step['method']}()) {
                     return 1;
                 }
             }
 
             $this->components->success('Installation successful!');
+
             return 0;
         } catch (Exception $e) {
             $this->components->error("Installation failed: {$e->getMessage()}");
+
             return 1;
         }
     }
@@ -138,18 +141,20 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
             if ($this->argument('pest') || $this->isUsingPest()) {
                 // Use trait methods for package management
                 if ($this->hasComposerPackage('phpunit/phpunit')) {
-                    if (!$this->manageComposerPackages(['phpunit/phpunit'], 'remove', true)) {
+                    if (! $this->manageComposerPackages(['phpunit/phpunit'], 'remove', true)) {
                         $this->error('Failed to remove PHPUnit');
+
                         return false;
                     }
                 }
 
-                if (!$this->manageComposerPackages(
+                if (! $this->manageComposerPackages(
                     ['pestphp/pest', 'pestphp/pest-plugin-laravel'],
                     'require',
                     true
                 )) {
                     $this->error('Failed to install Pest');
+
                     return false;
                 }
 
@@ -167,6 +172,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
             return true;
         } catch (Exception $e) {
             $this->error("Test installation failed: {$e->getMessage()}");
+
             return false;
         }
     }
@@ -186,8 +192,10 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     {
         if (empty($this->getComposerConfig())) {
             $this->error('Unable to read composer configuration');
+
             return false;
         }
+
         return true;
     }
 

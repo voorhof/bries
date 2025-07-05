@@ -10,8 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Manages file copy during Bries installation.
  *
- * @package Voorhof\Bries\Console\Commands
  * @property-read OutputInterface $output
+ *
  * @method void error(string $message)
  * @method void info(string $message)
  */

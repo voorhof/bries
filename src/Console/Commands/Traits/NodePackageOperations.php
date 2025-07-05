@@ -11,8 +11,8 @@ use Symfony\Component\Process\Process;
  *
  * Handles Node.js package management and compilation.
  *
- * @package Voorhof\Bries\Console\Commands
  * @property-read OutputInterface $output
+ *
  * @method void error(string $message)
  * @method void info(string $message)
  */
