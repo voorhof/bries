@@ -1,3 +1,5 @@
+permissions:
+  contents: read
 name: Run tests
 
 on:
@@ -42,19 +44,15 @@ jobs:
       - name: Setup Laravel
         run: |
           composer create-project laravel/laravel:^${{ matrix.laravel }} .
-          composer config repositories.breeze '{"type": "path", "url": "breeze"}' --file composer.json
         if: matrix.laravel < 12
 
       - name: Setup Laravel (dev-master)
         run: |
           composer create-project laravel/laravel:dev-master .
-          composer config repositories.breeze '{"type": "path", "url": "breeze"}' --file composer.json
         if: matrix.laravel == 12
 
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          path: 'breeze'
 
       - name: Install Bries
         run: |
