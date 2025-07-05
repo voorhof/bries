@@ -90,7 +90,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     /**
      * Manages the installation of Bootstrap stack components.
      *
-     * This method orchestrates the entire installation process including:
+     * This method orchestrates the entire installation process including
      * - File copying
      * - Test setup
      * - Node package management
@@ -105,7 +105,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
             $steps = [
                 ['message' => 'Copying starter kit files...', 'method' => 'copyFiles'],
                 ['message' => 'Setting up testunit...', 'method' => 'installTests'],
-                ['message' => 'Updating node packages...', 'method' => 'updateNodeDependencies'], // TODO; stopt hier? Geen return?
+                ['message' => 'Updating node packages...', 'method' => 'updateNodeDependencies'],
                 ['message' => 'Compiling node packages...', 'method' => 'compileNodePackages'],
             ];
 
