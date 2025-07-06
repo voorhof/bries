@@ -167,21 +167,22 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
             }
 
             $this->components->success('Installation successful!');
+
             return 0;
         } catch (Exception $e) {
             $this->components->error("Installation failed: {$e->getMessage()}");
+
             return 1;
         }
     }
 
     /**
      * Update node dependencies
-     *
-     * @return bool
      */
     protected function updateNodeDependencies(): bool
     {
         $this->updateNodePackages(fn () => self::NODE_DEPENDENCIES);
+
         return true;
     }
 }
