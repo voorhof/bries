@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
-use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Voorhof\Bries\Console\Commands\Traits\ComposerOperations;
 use Voorhof\Bries\Console\Commands\Traits\FileOperations;
@@ -97,8 +96,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      * - Asset compilation
      *
      * @return int Exit code (0 for success, 1 for failure)
-     *
-     * @throws RuntimeException When critical operations fail
      */
     protected function installsBootstrapStack(): int
     {
