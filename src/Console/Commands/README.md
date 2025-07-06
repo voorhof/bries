@@ -12,3 +12,9 @@ Manages file system operations and file manipulations.
 
 ### NodePackageOperations
 Handles Node.js package management and build operations.
+
+### TestFrameworkOperations
+Manages test framework installation and configuration, including:
+- PHPUnit to Pest migration
+- Test suite file copying
+- Test framework detection

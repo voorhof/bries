@@ -19,6 +19,20 @@ trait ComposerOperations
     private array $composerConfig = [];
 
     /**
+     * Check for composer configuration availability
+     */
+    protected function ensureComposerConfigAvailable(): bool
+    {
+        if (empty($this->getComposerConfig())) {
+            $this->error('Unable to read composer configuration');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get cached composer configuration.
      */
     protected function getComposerConfig(): array

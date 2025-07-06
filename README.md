@@ -4,8 +4,8 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/voorhof/bries/fix-php-code-style-issues.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/voorhof/bries/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/voorhof/bries.svg?style=flat-square)](https://packagist.org/packages/voorhof/bries)
 
-This is a starter kit for Laravel (12) using the [Bootstrap](https://getbootstrap.com/) frontend toolkit.  
-Heavily inspired on the breeze + blade package option from [Laravel Breeze](https://github.com/laravel/breeze).
+This is a basic starter kit for Laravel authentication scaffolding using [Bootstrap 5](https://getbootstrap.com/) as the frontend toolkit.  
+Heavily inspired on the breeze and blade package option from [Laravel Breeze](https://github.com/laravel/breeze).
 
 ## Installation
 
@@ -16,7 +16,7 @@ You can install the package via composer:
 composer require voorhof/bries --dev
 ```
 
-Run this command to setup the starter kit,  
+Run this command to set up the starter kit,  
 it will copy all necessary resource files to your app and update existing ones:
 
 ```bash
