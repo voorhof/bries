@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Manages file copy during Bries installation.
  *
  * @property-read OutputInterface $output
+ *
  * @method void error(string $message)
  * @method void info(string $message)
  */
@@ -37,49 +38,49 @@ trait FileOperations
         // App
         // // Controllers
         $this->filesystem->ensureDirectoryExists(app_path('Http/Controllers'));
-        $this->filesystem->copyDirectory($this->stubPath . '/default/app/Http/Controllers', app_path('Http/Controllers'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/app/Http/Controllers', app_path('Http/Controllers'));
 
         // // Requests
         $this->filesystem->ensureDirectoryExists(app_path('Http/Requests'));
-        $this->filesystem->copyDirectory($this->stubPath . '/default/app/Http/Requests', app_path('Http/Requests'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/app/Http/Requests', app_path('Http/Requests'));
 
         // // Components
         $this->filesystem->ensureDirectoryExists(app_path('View/Components'));
-        $this->filesystem->copyDirectory($this->stubPath . '/default/app/View/Components', app_path('View/Components'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/app/View/Components', app_path('View/Components'));
 
         // Resources
         // // JS
         $this->filesystem->ensureDirectoryExists(resource_path('js'));
-        $this->filesystem->copyDirectory($this->stubPath . '/default/resources/js', resource_path('js'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/resources/js', resource_path('js'));
 
         // // SCSS (remove existing CSS)
         $this->filesystem->deleteDirectory(resource_path('css'));
         $this->filesystem->ensureDirectoryExists(resource_path('scss'));
-        $this->filesystem->copyDirectory($this->stubPath . '/default/resources/scss', resource_path('scss'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/resources/scss', resource_path('scss'));
 
         // // Views
         $this->filesystem->ensureDirectoryExists(resource_path('views'));
-        $this->filesystem->copyDirectory($this->stubPath . '/default/resources/views', resource_path('views'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/resources/views', resource_path('views'));
 
         // Routes
         $this->filesystem->ensureDirectoryExists(base_path('routes'));
-        copy($this->stubPath . '/default/routes/web.php', base_path('routes/web.php'));
-        copy($this->stubPath . '/default/routes/auth.php', base_path('routes/auth.php'));
+        copy($this->stubPath.'/default/routes/web.php', base_path('routes/web.php'));
+        copy($this->stubPath.'/default/routes/auth.php', base_path('routes/auth.php'));
 
         // Vite
-        copy($this->stubPath . '/default/postcss.config.js', base_path('postcss.config.js'));
-        copy($this->stubPath . '/default/vite.config.js', base_path('vite.config.js'));
+        copy($this->stubPath.'/default/postcss.config.js', base_path('postcss.config.js'));
+        copy($this->stubPath.'/default/vite.config.js', base_path('vite.config.js'));
 
         // Cheatsheet option
         if ($this->argument('cheatsheet')) {
-            copy($this->stubPath . '/cheatsheet/app/Http/Controllers/PageController.php', app_path('Http/Controllers/PageController.php'));
-            copy($this->stubPath . '/cheatsheet/resources/views/layouts/navbar.blade.php', resource_path('views/layouts/navbar.blade.php'));
-            copy($this->stubPath . '/cheatsheet/routes/web.php', base_path('routes/web.php'));
+            copy($this->stubPath.'/cheatsheet/app/Http/Controllers/PageController.php', app_path('Http/Controllers/PageController.php'));
+            copy($this->stubPath.'/cheatsheet/resources/views/layouts/navbar.blade.php', resource_path('views/layouts/navbar.blade.php'));
+            copy($this->stubPath.'/cheatsheet/routes/web.php', base_path('routes/web.php'));
 
             if ($this->argument('dark')) {
-                copy($this->stubPath . '/dark/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
+                copy($this->stubPath.'/dark/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
             } else {
-                copy($this->stubPath . '/cheatsheet/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
+                copy($this->stubPath.'/cheatsheet/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
             }
         }
 
@@ -99,9 +100,9 @@ trait FileOperations
     /**
      * Replace a given string within a file.
      *
-     * @param string $search Search string
-     * @param string $replace Replacement string
-     * @param string $path File path
+     * @param  string  $search  Search string
+     * @param  string  $replace  Replacement string
+     * @param  string  $path  File path
      */
     protected function replaceInFile(string $search, string $replace, string $path): void
     {

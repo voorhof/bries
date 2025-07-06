@@ -12,17 +12,6 @@ use Symfony\Component\Process\Process;
  *
  * Provides methods for managing Composer dependencies and configuration.
  *
- * @package Voorhof\Bries\Console\Commands\Traits
- *
- * Configuration Methods:
- * - getComposerConfig(): Get composer.json contents
- * - hasComposerPackage(): Check package existence
- * - hasComposerPackageVersion(): Verify the package version
- *
- * Package Management Methods:
- * - manageComposerPackages(): Install/remove packages
- * - requireComposerPackages(): Install packages
- * - removeComposerPackages(): Remove packages
  *
  * @property OutputInterface $output Console output interface
  */
@@ -109,11 +98,9 @@ trait ComposerOperations
     /**
      * Manage Composer package operations.
      *
-     * @param array<string> $packages Packages to manage
-     * @param string $action Action to perform ('require'|'remove')
-     * @param bool $asDev Install as dev dependency
-     *
-     * @throws RuntimeException When Composer operation fails
+     * @param  array<string>  $packages  Packages to manage
+     * @param  string  $action  Action to perform ('require'|'remove')
+     * @param  bool  $asDev  Install as dev dependency
      * @return bool Operation success status
      *
      * Steps:
@@ -121,6 +108,8 @@ trait ComposerOperations
      * 2. Configure Composer command
      * 3. Execute package operation
      * 4. Handle process output
+     *
+     * @throws RuntimeException When Composer operation fails
      */
     protected function manageComposerPackages(array $packages, string $action = 'require', bool $asDev = false): bool
     {

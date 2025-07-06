@@ -18,10 +18,11 @@ trait NodePackageOperations
     /**
      * Update the dependencies in the "package.json" file.
      *
-     * @param callable $callback Function that returns the new package configuration
-     * @param bool $dev Whether to update devDependencies or dependencies
-     * @throws RuntimeException When package.json operations fail
+     * @param  callable  $callback  Function that returns the new package configuration
+     * @param  bool  $dev  Whether to update devDependencies or dependencies
      * @return bool Success status
+     *
+     * @throws RuntimeException When package.json operations fail
      */
     protected static function updateNodePackages(callable $callback, bool $dev = true): bool
     {
@@ -51,8 +52,9 @@ trait NodePackageOperations
     /**
      * Compile the node dependencies with the detected package manager.
      *
-     * @throws RuntimeException When compilation fails
      * @return bool Success status
+     *
+     * @throws RuntimeException When compilation fails
      */
     protected function compileNodePackages(): bool
     {
@@ -74,7 +76,8 @@ trait NodePackageOperations
     /**
      * Execute shell commands with process management.
      *
-     * @param array $commands Array of shell commands to execute
+     * @param  array  $commands  Array of shell commands to execute
+     *
      * @throws RuntimeException When process execution fails
      *
      * Process Steps:
@@ -96,7 +99,7 @@ trait NodePackageOperations
     /**
      * Create a new Process instance for the commands.
      *
-     * @param array $commands Commands to be executed
+     * @param  array  $commands  Commands to be executed
      * @return Process Configured Process instance
      */
     private function createProcess(array $commands): Process
@@ -113,7 +116,8 @@ trait NodePackageOperations
     /**
      * Configure TTY settings for the process.
      *
-     * @param Process $process Process instance to configure
+     * @param  Process  $process  Process instance to configure
+     *
      * @throws RuntimeException When TTY configuration fails
      */
     private function configureTty(Process $process): void
@@ -122,7 +126,7 @@ trait NodePackageOperations
             $process->setTty(true);
         } catch (RuntimeException $e) {
             $this->output->writeln(
-                '  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL
+                '  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL
             );
         }
     }
@@ -130,13 +134,14 @@ trait NodePackageOperations
     /**
      * Execute the process and handle its output.
      *
-     * @param Process $process Process to execute
+     * @param  Process  $process  Process to execute
+     *
      * @throws RuntimeException When process execution fails
      */
     private function executeProcess(Process $process): void
     {
         $process->run(function ($type, $line) {
-            $this->output->write('    ' . $line);
+            $this->output->write('    '.$line);
         });
     }
 

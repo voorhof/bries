@@ -16,7 +16,6 @@ use function Laravel\Prompts\select;
 /**
  * Bootstrap Starter Kit Installation Command
  *
- * @package Voorhof\Bries\Console\Commands
  *
  * @property string $signature Command signature with arguments and options
  * @property string $description Command description
@@ -58,6 +57,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      * Install the Bootstrap starter kit components.
      *
      * @return int|null 0 on success, 1 on failure
+     *
      * @throws Exception
      */
     public function handle(): ?int
@@ -115,8 +115,9 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      * 3. Update Node.js dependencies
      * 4. Compile assets
      *
-     * @throws Exception When any installation step fails
      * @return int Exit code (0: success, 1: failure)
+     *
+     * @throws Exception When any installation step fails
      */
     protected function installsBootstrapStack(): int
     {
