@@ -56,6 +56,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      * Install the Bootstrap starter kit components.
      *
      * @return int|null 0 on success, 1 on failure
+     *
      * @throws Exception
      */
     public function handle(): ?int
