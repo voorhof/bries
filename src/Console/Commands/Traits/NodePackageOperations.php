@@ -9,17 +9,19 @@ use Symfony\Component\Process\Process;
 /**
  * Node Package Operations Trait
  *
- * Handles Node.js package management and compilation.
+ * Handles Node.js package management and asset compilation operations.
  *
- * @property-read OutputInterface $output
- *
- * @method void error(string $message)
- * @method void info(string $message)
+ * @property-read OutputInterface $output Console output interface
  */
 trait NodePackageOperations
 {
     /**
      * Update the dependencies in the "package.json" file.
+     *
+     * @param callable $callback Function that returns the new package configuration
+     * @param bool $dev Whether to update devDependencies or dependencies
+     * @throws RuntimeException When package.json operations fail
+     * @return bool Success status
      */
     protected static function updateNodePackages(callable $callback, bool $dev = true): bool
     {
@@ -47,7 +49,10 @@ trait NodePackageOperations
     }
 
     /**
-     * Compile the node dependencies with Vite.
+     * Compile the node dependencies with the detected package manager.
+     *
+     * @throws RuntimeException When compilation fails
+     * @return bool Success status
      */
     protected function compileNodePackages(): bool
     {
@@ -67,22 +72,88 @@ trait NodePackageOperations
     }
 
     /**
-     * Run the given commands.
+     * Execute shell commands with process management.
+     *
+     * @param array $commands Array of shell commands to execute
+     * @throws RuntimeException When process execution fails
+     *
+     * Process Steps:
+     * 1. Create a shell command process
+     * 2. Configure TTY if available
+     * 3. Execute and handle output
      */
     protected function runCommands(array $commands): void
     {
-        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
+        $process = $this->createProcess($commands);
 
-        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
-            try {
-                $process->setTty(true);
-            } catch (RuntimeException $e) {
-                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
-            }
+        if ($this->shouldUseTty()) {
+            $this->configureTty($process);
         }
 
+        $this->executeProcess($process);
+    }
+
+    /**
+     * Create a new Process instance for the commands.
+     *
+     * @param array $commands Commands to be executed
+     * @return Process Configured Process instance
+     */
+    private function createProcess(array $commands): Process
+    {
+        return Process::fromShellCommandline(
+            implode(' && ', $commands),
+            null,
+            null,
+            null,
+            null
+        );
+    }
+
+    /**
+     * Configure TTY settings for the process.
+     *
+     * @param Process $process Process instance to configure
+     * @throws RuntimeException When TTY configuration fails
+     */
+    private function configureTty(Process $process): void
+    {
+        try {
+            $process->setTty(true);
+        } catch (RuntimeException $e) {
+            $this->output->writeln(
+                '  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL
+            );
+        }
+    }
+
+    /**
+     * Execute the process and handle its output.
+     *
+     * @param Process $process Process to execute
+     * @throws RuntimeException When process execution fails
+     */
+    private function executeProcess(Process $process): void
+    {
         $process->run(function ($type, $line) {
-            $this->output->write('    '.$line);
+            $this->output->write('    ' . $line);
         });
+    }
+
+    /**
+     * Determine if TTY should be used for process execution.
+     *
+     * Checks if:
+     * 1. Not running on Windows
+     * 2. TTY device exists
+     * 3. TTY device is readable
+     *
+     * @return bool True if TTY should be used
+     */
+    private function shouldUseTty(): bool
+    {
+        return '\\' !== DIRECTORY_SEPARATOR
+            && file_exists('/dev/tty')
+            && is_readable('/dev/tty');
     }
 }

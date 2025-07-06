@@ -8,15 +8,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 /**
- * Composer Operations Trait
+ * Composer Package Management Operations
  *
- * Provides functionality for managing Composer packages and dependencies.
+ * Provides methods for managing Composer dependencies and configuration.
  *
- * @property-read OutputInterface $output
+ * @package Voorhof\Bries\Console\Commands\Traits
  *
- * @method void error(string $message)
- * @method void info(string $message)
- * @method mixed option(string $key)
+ * Configuration Methods:
+ * - getComposerConfig(): Get composer.json contents
+ * - hasComposerPackage(): Check package existence
+ * - hasComposerPackageVersion(): Verify the package version
+ *
+ * Package Management Methods:
+ * - manageComposerPackages(): Install/remove packages
+ * - requireComposerPackages(): Install packages
+ * - removeComposerPackages(): Remove packages
+ *
+ * @property OutputInterface $output Console output interface
  */
 trait ComposerOperations
 {
@@ -99,14 +107,20 @@ trait ComposerOperations
     }
 
     /**
-     * Validates and manages Composer packages.
+     * Manage Composer package operations.
      *
-     * @param  array<string>  $packages  List of packages to manage
-     * @param  string  $action  Action to perform ('require'|'remove')
-     * @param  bool  $asDev  Whether to treat as dev dependency
-     * @return bool Operation success status
+     * @param array<string> $packages Packages to manage
+     * @param string $action Action to perform ('require'|'remove')
+     * @param bool $asDev Install as dev dependency
      *
      * @throws RuntimeException When Composer operation fails
+     * @return bool Operation success status
+     *
+     * Steps:
+     * 1. Validate action type
+     * 2. Configure Composer command
+     * 3. Execute package operation
+     * 4. Handle process output
      */
     protected function manageComposerPackages(array $packages, string $action = 'require', bool $asDev = false): bool
     {

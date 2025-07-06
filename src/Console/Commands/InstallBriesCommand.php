@@ -13,15 +13,32 @@ use Voorhof\Bries\Console\Commands\Traits\NodePackageOperations;
 
 use function Laravel\Prompts\select;
 
+/**
+ * Bootstrap Starter Kit Installation Command
+ *
+ * @package Voorhof\Bries\Console\Commands
+ *
+ * @property string $signature Command signature with arguments and options
+ * @property string $description Command description
+ */
 #[AsCommand(name: 'bries:install')]
 class InstallBriesCommand extends Command implements PromptsForMissingInput
 {
     use ComposerOperations, FileOperations, NodePackageOperations;
 
     /**
-     * The name and signature of the command.
+     * The command signature with available arguments and options.
      *
      * @var string
+     *
+     * Arguments:
+     *   - dark: Enable dark mode support
+     *   - grid: Enable CSS grid classes
+     *   - cheatsheet: Include Bootstrap cheatsheet
+     *   - pest: Use Pest as the testing framework
+     *
+     * Options:
+     *   - composer: Path to Composer binary
      */
     protected $signature = 'bries:install
                                 {dark : Indicate that dark mode support should be installed}
@@ -38,7 +55,10 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     protected $description = 'Install the bootstrap starter kit.';
 
     /**
-     * Execute the command.
+     * Install the Bootstrap starter kit components.
+     *
+     * @return int|null 0 on success, 1 on failure
+     * @throws Exception
      */
     public function handle(): ?int
     {
@@ -87,15 +107,16 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     }
 
     /**
-     * Manages the installation of Bootstrap stack components.
+     * Execute the Bootstrap stack installation process.
      *
-     * This method orchestrates the entire installation process including
-     * - File copying
-     * - Test setup
-     * - Node package management
-     * - Asset compilation
+     * Steps:
+     * 1. Copy starter kit files
+     * 2. Set up the test framework
+     * 3. Update Node.js dependencies
+     * 4. Compile assets
      *
-     * @return int Exit code (0 for success, 1 for failure)
+     * @throws Exception When any installation step fails
+     * @return int Exit code (0: success, 1: failure)
      */
     protected function installsBootstrapStack(): int
     {
