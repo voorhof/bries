@@ -12,7 +12,6 @@ use Symfony\Component\Process\Process;
  *
  * Provides methods for managing Composer dependencies and configuration.
  *
- *
  * @property OutputInterface $output Console output interface
  */
 trait ComposerOperations
