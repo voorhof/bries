@@ -41,12 +41,12 @@ trait TestFrameworkOperations
                 }
 
                 (new Filesystem)->copyDirectory(
-                    __DIR__.'/../../../stubs/default/tests-pest',
+                    __DIR__.'/../../../../stubs/default/tests-pest',
                     base_path('tests')
                 );
             } else {
                 (new Filesystem)->copyDirectory(
-                    __DIR__.'/../../../stubs/default/tests',
+                    __DIR__.'/../../../../stubs/default/tests',
                     base_path('tests')
                 );
             }
