@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="POST" action="{{ route('password.update') }}" class="needs-validation" novalidate>
+    <form method="POST" action="{{ route('profile.password.update') }}" class="needs-validation" novalidate>
         @csrf
         @method('put')
 

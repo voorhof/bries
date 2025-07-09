@@ -13,7 +13,7 @@ This package should only be used within a fresh Laravel installation.
 You can install the package via composer:
 
 ```bash
-composer require voorhof/bries --dev
+composer require --dev voorhof/bries
 ```
 
 Run this command to set up the starter kit,  
