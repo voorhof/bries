@@ -16,7 +16,7 @@
     @vite(['resources/js/app.js'])
     @stack('head-scripts')
 </head>
-<body class="bg-light-subtle">
+<body>
 {{-- Navigation --}}
 @include('layouts.navbar')
 
@@ -35,7 +35,7 @@
 </main>
 
 {{-- Footer --}}
-<footer class="bg-dark text-light">
+<footer class="bg-dark text-light border-top border-dark-subtle">
     <div class="container py-5">
         <p class="text-center">
             <strong>FOOTER</strong>

@@ -14,7 +14,7 @@ $enable-shadows: true;
 $enable-gradients: true;
 $enable-cssgrid: false;
 $enable-negative-margins: true;
-$enable-dark-mode: false;
+$enable-dark-mode: true;
 
 // Typography
 $font-family-sans-serif: Inter, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -23,3 +23,17 @@ $font-family-sans-serif: Inter, Arial, sans-serif, "Apple Color Emoji", "Segoe U
  * Import all of Bootstrap’s CSS
  */
 @import "bootstrap/scss/bootstrap";
+
+/**
+ * Include extra custom styles below
+ */
+
+// Set the dark-mode color for primary themed icons
+[data-bs-theme=dark] .bi.text-primary {
+    --dc-primary-rgb: 123,103,166;
+}
+
+// Set black as the dark-mode background color for dark footer
+[data-bs-theme=dark] footer.bg-dark {
+    --dc-dark-rgb: 0, 0, 0;
+}

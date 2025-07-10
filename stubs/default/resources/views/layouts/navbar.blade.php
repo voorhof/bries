@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-lg">
+<nav class="navbar navbar-expand-lg bg-primary shadow-sm" data-bs-theme="dark">
     <div class="container">
         {{-- Logo --}}
         <a class="navbar-brand" href="{{ route('welcome') }}">
-            <x-application-logo style="fill: var(--dc-primary); width: 30px;" class="d-inline-block align-top" />
+            <x-application-logo style="fill: currentColor; width: 30px;" class="d-inline-block align-top" />
             {{ config('app.name', 'Laravel') }}
         </a>
 
@@ -28,7 +28,7 @@
                 </x-nav-link>
 
                 {{-- Dropdown profile --}}
-                <x-dropdown align="right" class="nav-item ms-auto" togglerClasses="nav-link">
+                <x-dropdown align="right" class="nav-item ms-lg-auto" togglerClasses="nav-link">
                     <x-slot:trigger>
                         {{ Auth::user()->name }}
                     </x-slot:trigger>
