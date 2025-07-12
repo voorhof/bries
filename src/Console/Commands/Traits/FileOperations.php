@@ -74,7 +74,6 @@ trait FileOperations
         // Cheatsheet option
         if ($this->argument('cheatsheet')) {
             copy($this->stubPath.'/cheatsheet/app/Http/Controllers/PageController.php', app_path('Http/Controllers/PageController.php'));
-            copy($this->stubPath.'/cheatsheet/resources/views/layouts/navbar.blade.php', resource_path('views/layouts/navbar.blade.php'));
             copy($this->stubPath.'/cheatsheet/routes/web.php', base_path('routes/web.php'));
 
             if ($this->argument('dark')) {

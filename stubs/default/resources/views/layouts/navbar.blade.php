@@ -19,8 +19,14 @@
                     {{ __('Dashboard') }}
                 </x-nav-link>
 
+                @if(Route::has('cheatsheet'))
+                    <x-nav-link :href="route('cheatsheet')" :active="request()->routeIs('cheatsheet')">
+                        {{ __('Cheatsheet') }}
+                    </x-nav-link>
+                @endif
+
                 <x-nav-link href="#">
-                    {{ __('Link') }}
+                    {{ __('Example') }}
                 </x-nav-link>
 
                 <x-nav-link :disabled="true">
