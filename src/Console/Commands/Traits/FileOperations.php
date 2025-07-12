@@ -64,30 +64,8 @@ trait FileOperations
 
         // Routes
         $this->filesystem->ensureDirectoryExists(base_path('routes'));
-
-        // // Check for an existing web routes file and create a backup if needed
-        $webRoutesPath = base_path('routes/web.php');
-        $backupPath = base_path('routes/web-bries.php.backup');
-        if (file_exists($webRoutesPath) && ! file_exists($backupPath)) {
-            copy($webRoutesPath, $backupPath);
-        }
-
-        // // Copy Bries route files
         copy($this->stubPath.'/default/routes/web.php', base_path('routes/web.php'));
         copy($this->stubPath.'/default/routes/auth.php', base_path('routes/auth.php'));
-
-        // // Check if the Voorhof CMS package routes existed and put it back
-        if (file_exists(base_path('routes/cms.php'))) {
-            $content = file_get_contents($webRoutesPath);
-            // Add a newline if the file doesn't end with one
-            if (! str_ends_with($content, "\n")) {
-                $content .= "\n";
-            }
-            // Add an extra newline for separation and then the new require statement
-            $content .= "\n"."require __DIR__.'/cms.php';"."\n";
-
-            file_put_contents($webRoutesPath, $content);
-        }
 
         // Vite
         copy($this->stubPath.'/default/postcss.config.js', base_path('postcss.config.js'));
@@ -111,6 +89,20 @@ trait FileOperations
             } else {
                 copy($this->stubPath.'/cheatsheet/resources/views/cheatsheet.blade.php', resource_path('views/cheatsheet.blade.php'));
             }
+        }
+
+        // // Check if the Voorhof CMS package routes exist
+        if (file_exists(base_path('routes/cms.php'))) {
+            $webRoutesPath = base_path('routes/web.php');
+            $content = file_get_contents($webRoutesPath);
+            // Add a newline if the file doesn't end with one
+            if (! str_ends_with($content, "\n")) {
+                $content .= "\n";
+            }
+            // Add an extra newline for separation and then the new require statement
+            $content .= "\n"."require __DIR__.'/cms.php';"."\n";
+
+            file_put_contents($webRoutesPath, $content);
         }
 
         // CSS dark mode option
