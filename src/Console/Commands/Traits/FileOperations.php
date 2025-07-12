@@ -63,15 +63,16 @@ trait FileOperations
         $this->filesystem->copyDirectory($this->stubPath.'/default/resources/views', resource_path('views'));
 
         // Routes
-        // // Check for an existing web routes file and create backup if needed
+        $this->filesystem->ensureDirectoryExists(base_path('routes'));
+
+        // // Check for an existing web routes file and create a backup if needed
         $webRoutesPath = base_path('routes/web.php');
-        $backupPath = base_path('routes/web.php.backup');
+        $backupPath = base_path('routes/web-bries.php.backup');
         if (file_exists($webRoutesPath) && ! file_exists($backupPath)) {
             copy($webRoutesPath, $backupPath);
         }
 
         // // Copy Bries route files
-        $this->filesystem->ensureDirectoryExists(base_path('routes'));
         copy($this->stubPath.'/default/routes/web.php', base_path('routes/web.php'));
         copy($this->stubPath.'/default/routes/auth.php', base_path('routes/auth.php'));
 
