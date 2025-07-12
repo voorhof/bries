@@ -77,8 +77,7 @@ trait FileOperations
         copy($this->stubPath.'/default/routes/auth.php', base_path('routes/auth.php'));
 
         // // Check if the Voorhof CMS package routes existed and put it back
-        $backupContent = file_get_contents($backupPath);
-        if (str_contains($backupContent, "require __DIR__.'/cms.php'")) {
+        if (file_exists(base_path('routes/cms.php'))) {
             $content = file_get_contents($webRoutesPath);
             // Add a newline if the file doesn't end with one
             if (! str_ends_with($content, "\n")) {
@@ -95,7 +94,7 @@ trait FileOperations
         copy($this->stubPath.'/default/vite.config.js', base_path('vite.config.js'));
 
         // // Check if Voorhof CMS is installed and update Vite config
-        if (str_contains($backupContent, "require __DIR__.'/cms.php'")) {
+        if (file_exists(base_path('routes/cms.php'))) {
             $this->replaceInFile(
                 "'resources/js/app.js'",
                 "'resources/js/app.js', 'resources/js/cms.js'",
