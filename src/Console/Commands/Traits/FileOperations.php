@@ -63,13 +63,43 @@ trait FileOperations
         $this->filesystem->copyDirectory($this->stubPath.'/default/resources/views', resource_path('views'));
 
         // Routes
+        // // Check for an existing web routes file and create backup if needed
+        $webRoutesPath = base_path('routes/web.php');
+        $backupPath = base_path('routes/web.php.backup');
+        if (file_exists($webRoutesPath) && ! file_exists($backupPath)) {
+            copy($webRoutesPath, $backupPath);
+        }
+
+        // // Copy Bries route files
         $this->filesystem->ensureDirectoryExists(base_path('routes'));
         copy($this->stubPath.'/default/routes/web.php', base_path('routes/web.php'));
         copy($this->stubPath.'/default/routes/auth.php', base_path('routes/auth.php'));
 
+        // // Check if the Voorhof CMS package routes existed and put it back
+        $backupContent = file_get_contents($backupPath);
+        if (str_contains($backupContent, "require __DIR__.'/cms.php'")) {
+            $content = file_get_contents($webRoutesPath);
+            // Add a newline if the file doesn't end with one
+            if (! str_ends_with($content, "\n")) {
+                $content .= "\n";
+            }
+            // Add an extra newline for separation and then the new require statement
+            $content .= "\n"."require __DIR__.'/cms.php';"."\n";
+
+            file_put_contents($webRoutesPath, $content);
+        }
+
         // Vite
         copy($this->stubPath.'/default/postcss.config.js', base_path('postcss.config.js'));
         copy($this->stubPath.'/default/vite.config.js', base_path('vite.config.js'));
+
+        // // Check if Voorhof CMS is installed and update Vite config
+        if (str_contains($backupContent, "require __DIR__.'/cms.php'")) {
+            $this->replaceInFile(
+                "'resources/js/app.js'",
+                "'resources/js/app.js', 'resources/js/cms.js'",
+                base_path('vite.config.js'));
+        }
 
         // Cheatsheet option
         if ($this->argument('cheatsheet')) {
