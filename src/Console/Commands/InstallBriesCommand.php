@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Voorhof\Bries\Console\Commands\Traits\ComposerOperations;
+use Voorhof\Bries\Console\Commands\Traits\DatabaseOperations;
 use Voorhof\Bries\Console\Commands\Traits\FileOperations;
 use Voorhof\Bries\Console\Commands\Traits\NodePackageOperations;
 use Voorhof\Bries\Console\Commands\Traits\TestFrameworkOperations;
@@ -23,6 +24,7 @@ use function Laravel\Prompts\select;
 class InstallBriesCommand extends Command implements PromptsForMissingInput
 {
     use ComposerOperations,
+        DatabaseOperations,
         FileOperations,
         NodePackageOperations,
         TestFrameworkOperations;
@@ -55,6 +57,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         ['message' => 'Setting up testunit...', 'method' => 'installTests'],
         ['message' => 'Updating node packages...', 'method' => 'updateNodeDependencies'],
         ['message' => 'Compiling node packages...', 'method' => 'compileNodePackages'],
+        ['message' => 'Migrating database...', 'method' => 'migrateFresh'],
     ];
 
     private const INSTALLATION_PROMPTS = [
