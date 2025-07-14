@@ -101,7 +101,12 @@ test('user can delete their account', function () {
         ->assertRedirect('/');
 
     $this->assertGuest();
-    $this->assertNull($user->fresh());
+
+    // Refresh the model
+    $user->refresh();
+
+    // Assert the user has been soft-deleted
+    $this->assertNotNull($user->deleted_at);
 });
 
 test('correct password must be provided to delete account', function () {

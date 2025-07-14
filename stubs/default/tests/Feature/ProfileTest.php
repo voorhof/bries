@@ -115,7 +115,12 @@ class ProfileTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertGuest();
-        $this->assertNull($user->fresh());
+
+        // Refresh the model
+        $user->refresh();
+
+        // Assert the user has been soft-deleted
+        $this->assertNotNull($user->deleted_at);
     }
 
     public function test_correct_password_must_be_provided_to_delete_account(): void

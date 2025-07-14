@@ -44,9 +44,21 @@ trait FileOperations
         $this->filesystem->ensureDirectoryExists(app_path('Http/Requests'));
         $this->filesystem->copyDirectory($this->stubPath.'/default/app/Http/Requests', app_path('Http/Requests'));
 
+        // // Models
+        $this->filesystem->ensureDirectoryExists(app_path('Http/Models'));
+        $model = app_path('Http/Models/User.php');
+        $modelBackup = app_path('Http/Models/User.php.backup-bries');
+        if (! file_exists($modelBackup)) { copy($model, $modelBackup); }
+        copy($this->stubPath.'/default/app/Http/Models/User.php', $model);
+
         // // Components
         $this->filesystem->ensureDirectoryExists(app_path('View/Components'));
         $this->filesystem->copyDirectory($this->stubPath.'/default/app/View/Components', app_path('View/Components'));
+
+        // Database
+        $this->filesystem->ensureDirectoryExists(base_path('database'));
+        $this->filesystem->copyDirectory(base_path('database'), base_path('database.backup-bries'));
+        $this->filesystem->copyDirectory($this->stubPath.'/default/database', base_path('database'));
 
         // Resources
         // // JS
