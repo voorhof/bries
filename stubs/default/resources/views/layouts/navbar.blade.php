@@ -50,6 +50,14 @@
 
                         <hr class="dropdown-divider">
 
+                        @if(Route::has('cms.dashboard') && Auth::user()->can('access cms'))
+                            <x-dropdown-link :href="route('cms.dashboard')" class="link-info">
+                                <i class="bi bi-speedometer2 me-1"></i> {{ __('CMS') }}
+                            </x-dropdown-link>
+
+                            <hr class="dropdown-divider">
+                        @endif
+
                         {{-- Log out form --}}
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
