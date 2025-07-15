@@ -19,6 +19,12 @@
                     {{ __('Dashboard') }}
                 </x-nav-link>
 
+                @if(Route::has('posts'))
+                    <x-nav-link :href="route('posts')" :active="request()->routeIs('posts')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
+                @endif
+
                 @if(Route::has('cheatsheet'))
                     <x-nav-link :href="route('cheatsheet')" :active="request()->routeIs('cheatsheet')">
                         {{ __('Cheatsheet') }}
@@ -30,7 +36,7 @@
                 </x-nav-link>
 
                 <x-nav-link :disabled="true">
-                    {{ __('Disabled') }}
+                    {{ __('Disabled example') }}
                 </x-nav-link>
 
                 {{-- Dropdown profile --}}

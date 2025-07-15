@@ -2,7 +2,7 @@ name: Update changelog
 
 on:
   release:
-    types: [released, prereleased]
+    types: [released]
 
 permissions:
   contents: write
