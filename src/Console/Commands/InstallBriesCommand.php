@@ -81,6 +81,11 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
             'options' => self::TESTING_FRAMEWORK_OPTIONS,
             'default' => 1,
         ],
+        'backup' => [
+            'label' => 'Would you like to backup the original files?',
+            'options' => self::YES_NO_OPTIONS,
+            'default' => 0,
+        ],
     ];
 
     /**
@@ -93,6 +98,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      *   - grid: Enable CSS grid classes
      *   - cheatsheet: Include Bootstrap cheatsheet
      *   - pest: Use Pest as the testing framework
+     *   - backup: Back up the original Laravel files
      *
      * Options:
      *   - composer: Path to Composer binary
@@ -102,6 +108,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
                                 {grid : Indicate that CSS grid classes should be installed}
                                 {cheatsheet : Indicate that a cheatsheet page should be installed}
                                 {pest : Indicate that Pest should be installed}
+                                {backup : Indicate that original files should have a backup}
                                 {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
     /**
@@ -154,7 +161,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     protected function installsBootstrapStack(): int
     {
         try {
-            $this->components->info('Starting installation...');
+            $this->components->info('Starting Bries installation...');
 
             foreach (self::INSTALLATION_STEPS as $index => $step) {
                 $this->components->info(sprintf(
@@ -169,11 +176,11 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
                 }
             }
 
-            $this->components->success('Installation successful!');
+            $this->components->success('Bries installation successful!');
 
             return 0;
         } catch (Exception $e) {
-            $this->components->error("Installation failed: {$e->getMessage()}");
+            $this->components->error("Bries installation failed: {$e->getMessage()}");
 
             return 1;
         }

@@ -48,7 +48,7 @@ trait FileOperations
         $this->filesystem->ensureDirectoryExists(app_path('Models'));
         $model = app_path('Models/User.php');
         $modelBackup = app_path('Models/User.php.backup-bries');
-        if (! file_exists($modelBackup)) {
+        if (! file_exists($modelBackup) && $this->argument('backup')) {
             copy($model, $modelBackup);
         }
         copy($this->stubPath.'/default/app/Models/User.php', $model);
@@ -59,7 +59,9 @@ trait FileOperations
 
         // Database
         $this->filesystem->ensureDirectoryExists(base_path('database'));
-        $this->filesystem->copyDirectory(base_path('database'), base_path('database.backup-bries'));
+        if ($this->argument('backup')) {
+            $this->filesystem->copyDirectory(base_path('database'), base_path('database.backup-bries'));
+        }
         $this->filesystem->copyDirectory($this->stubPath.'/default/database', base_path('database'));
 
         // Resources
@@ -68,6 +70,9 @@ trait FileOperations
         $this->filesystem->copyDirectory($this->stubPath.'/default/resources/js', resource_path('js'));
 
         // // SCSS (remove existing CSS)
+        if ($this->argument('backup')) {
+            $this->filesystem->copyDirectory(resource_path('css'), resource_path('css.backup-bries'));
+        }
         $this->filesystem->deleteDirectory(resource_path('css'));
         $this->filesystem->ensureDirectoryExists(resource_path('scss'));
         $this->filesystem->copyDirectory($this->stubPath.'/default/resources/scss', resource_path('scss'));
@@ -78,12 +83,19 @@ trait FileOperations
 
         // Routes
         $this->filesystem->ensureDirectoryExists(base_path('routes'));
+        if ($this->argument('backup')) {
+            $this->filesystem->copyDirectory(base_path('routes'), base_path('routes.backup-bries'));
+        }
         copy($this->stubPath.'/default/routes/web.php', base_path('routes/web.php'));
         copy($this->stubPath.'/default/routes/auth.php', base_path('routes/auth.php'));
 
         // Vite
-        copy($this->stubPath.'/default/postcss.config.js', base_path('postcss.config.js'));
+        if ($this->argument('backup')) {
+            $this->filesystem->copy(base_path('vite.config.js'), base_path('vite.config.js.backup-bries'));
+            $this->filesystem->copy(base_path('package.json'), base_path('package.json.backup-bries'));
+        }
         copy($this->stubPath.'/default/vite.config.js', base_path('vite.config.js'));
+        copy($this->stubPath.'/default/postcss.config.js', base_path('postcss.config.js'));
 
         // // Check if Voorhof CMS is installed and update Vite config
         if (file_exists(base_path('routes/cms.php'))) {
