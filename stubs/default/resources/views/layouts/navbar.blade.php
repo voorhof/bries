@@ -56,8 +56,8 @@
 
                         <hr class="dropdown-divider">
 
-                        @if(Route::has('cms.dashboard') && Auth::user()->can('access cms'))
-                            <x-dropdown-link :href="route('cms.dashboard')" class="link-info">
+                        @if(Route::has(config('cms.route_name_prefix').'.dashboard') && Auth::user()->can('access cms'))
+                            <x-dropdown-link :href="route(config('cms.route_name_prefix').'.dashboard')" class="link-info">
                                 <i class="bi bi-speedometer2 me-1"></i> {{ __('CMS') }}
                             </x-dropdown-link>
 

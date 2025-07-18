@@ -13,11 +13,11 @@
                     {{ __("You're logged in!") }}
                 </p>
 
-                @if(Route::has('cms.dashboard') && Auth::user()->can('access cms'))
+                @if(Route::has(config('cms.route_name_prefix').'.dashboard') && Auth::user()->can('access cms'))
                     <hr>
 
                     <p>
-                        <a href="{{ route('cms.dashboard') }}" class="btn btn-primary">
+                        <a href="{{ route(config('cms.route_name_prefix').'.dashboard') }}" class="btn btn-primary">
                             <i class="bi bi-speedometer2 me-1"></i> {{ __("You have access to the CMS!") }}
                         </a>
                     </p>
