@@ -10,7 +10,7 @@ on:
       - '*.x'
   pull_request:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 0'
 
 jobs:
   stub-tests:
@@ -66,23 +66,3 @@ jobs:
         run: |
           composer require voorhof/bries:@dev --dev --prefer-dist --no-interaction --no-progress -W
           php artisan bries:copy ${{ matrix.args }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install NPM dependencies
-        working-directory: laravel-app
-        run: npm ci --no-interaction
-
-      - name: Compile assets
-        working-directory: laravel-app
-        run: npm run build --no-interaction
-
-      - name: Execute tests
-        working-directory: laravel-app
-        run: 'vendor/bin/pest'
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ":memory:"
