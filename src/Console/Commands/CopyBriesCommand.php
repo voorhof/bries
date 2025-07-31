@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Voorhof\Bries\Console\Commands\Traits\ComposerOperations;
-use Voorhof\Bries\Console\Commands\Traits\DatabaseOperations;
 use Voorhof\Bries\Console\Commands\Traits\FileOperations;
 use Voorhof\Bries\Console\Commands\Traits\NodePackageOperations;
 use Voorhof\Bries\Console\Commands\Traits\TestFrameworkOperations;
@@ -15,16 +14,15 @@ use Voorhof\Bries\Console\Commands\Traits\TestFrameworkOperations;
 use function Laravel\Prompts\select;
 
 /**
- * Bootstrap Starter Kit Installation Command
+ * Bootstrap Starter Kit Copy Stubs Command
  *
  * @property string $signature Command signature with arguments and options
  * @property string $description Command description
  */
-#[AsCommand(name: 'bries:install')]
-class InstallBriesCommand extends Command implements PromptsForMissingInput
+#[AsCommand(name: 'bries:copy')]
+class CopyBriesCommand extends Command implements PromptsForMissingInput
 {
     use ComposerOperations,
-        DatabaseOperations,
         FileOperations,
         NodePackageOperations,
         TestFrameworkOperations;
@@ -56,8 +54,6 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
         ['message' => 'Copying starter kit files...', 'method' => 'copyFiles'],
         ['message' => 'Setting up testunit...', 'method' => 'installTests'],
         ['message' => 'Updating node packages...', 'method' => 'updateNodeDependencies'],
-        ['message' => 'Compiling node packages...', 'method' => 'compileNodePackages'],
-        ['message' => 'Migrating database...', 'method' => 'migrateFresh'],
     ];
 
     private const INSTALLATION_PROMPTS = [
@@ -103,7 +99,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      * Options:
      *   - composer: Path to Composer binary
      */
-    protected $signature = 'bries:install
+    protected $signature = 'bries:copy
                                 {dark : Indicate that dark mode support should be installed}
                                 {grid : Indicate that CSS grid classes should be installed}
                                 {cheatsheet : Indicate that a cheatsheet page should be installed}
@@ -116,10 +112,10 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $description = 'Install the bootstrap starter kit.';
+    protected $description = 'Copy the starter kit stubs.';
 
     /**
-     * Install the Bootstrap starter kit components.
+     * Copy the Bootstrap starter kit stubs.
      *
      * @return int|null 0 on success, 1 on failure
      *
@@ -127,7 +123,7 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
      */
     public function handle(): ?int
     {
-        return $this->installsBootstrapStack();
+        return $this->copyBootstrapStack();
     }
 
     /**
@@ -146,23 +142,21 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
     }
 
     /**
-     * Execute the Bootstrap stack installation process.
+     * Execute the Bootstrap stack copy process.
      *
      * Steps:
      * 1. Copy starter kit files
      * 2. Set up the test framework
      * 3. Update Node.js dependencies
-     * 4. Compile assets
-     * 5. Migrate database
      *
      * @return int Exit code (0: success, 1: failure)
      *
-     * @throws Exception When any installation step fails
+     * @throws Exception When any copy step fails
      */
-    protected function installsBootstrapStack(): int
+    protected function copyBootstrapStack(): int
     {
         try {
-            $this->components->info('Starting Bries installation...');
+            $this->components->info('Copy Bries stubs...');
 
             foreach (self::INSTALLATION_STEPS as $index => $step) {
                 $this->components->info(sprintf(
@@ -177,11 +171,11 @@ class InstallBriesCommand extends Command implements PromptsForMissingInput
                 }
             }
 
-            $this->components->success('Bries installation successful!');
+            $this->components->success('Bries stubs copy successful!');
 
             return 0;
         } catch (Exception $e) {
-            $this->components->error("Bries installation failed: {$e->getMessage()}");
+            $this->components->error("Bries stubs copy failed: {$e->getMessage()}");
 
             return 1;
         }

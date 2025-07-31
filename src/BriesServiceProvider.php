@@ -4,6 +4,7 @@ namespace Voorhof\Bries;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use Voorhof\Bries\Console\Commands\CopyBriesCommand;
 use Voorhof\Bries\Console\Commands\InstallBriesCommand;
 
 class BriesServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -26,6 +27,7 @@ class BriesServiceProvider extends ServiceProvider implements DeferrableProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallBriesCommand::class,
+                CopyBriesCommand::class,
             ]);
         }
     }
@@ -37,6 +39,7 @@ class BriesServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         return [
             InstallBriesCommand::class,
+            CopyBriesCommand::class,
         ];
     }
 }

@@ -2,6 +2,14 @@
 
 All notable release changes to `Bries` will be documented in this file.
 
+## v1.1.0 - 2025-07-31
+
+### What's Changed
+
+Added new command **php artisan bries:copy** for only copying the stubs to the project without the building process.  
+
+**Full Changelog**: https://github.com/voorhof/bries/compare/v1.0.3...v1.1.0
+
 ## v1.0.3 - 2025-07-28
 
 ### What's Changed
@@ -16,7 +24,7 @@ All notable release changes to `Bries` will be documented in this file.
 
 ## v1.0.2 - 2025-07-24
 
-Security fix - Bump Axios version
+Security fix — Bump Axios version
 
 **Full Changelog**: https://github.com/voorhof/bries/compare/v1.0.1...v1.0.2
 
