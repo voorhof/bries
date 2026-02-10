@@ -2,11 +2,15 @@
 
 All notable release changes to `Bries` will be documented in this file.
 
+## v1.1.1 - 2026-02-10
+
+Set minimum PHP version to 8.3
+
 ## v1.1.0 - 2025-07-31
 
 ### What's Changed
 
-Added new command **php artisan bries:copy** for only copying the stubs to the project without the building process.  
+Added new command **php artisan bries:copy** for only copying the stubs to the project without the building process.
 
 **Full Changelog**: https://github.com/voorhof/bries/compare/v1.0.3...v1.1.0
 
