@@ -44,14 +44,14 @@ jobs:
 
       - name: Setup Laravel
         working-directory: laravel-app
-        if: ${{ matrix.laravel != '12' }}
+        if: ${{ matrix.laravel == '12' }}
         run: |
           composer create-project laravel/laravel:^${{ matrix.laravel }}.0 .
           composer config repositories.bries '{"type": "path", "url": "../bries"}' --file composer.json
 
       - name: Setup Laravel (dev-master)
         working-directory: laravel-app
-        if: ${{ matrix.laravel == '12' }}
+        if: ${{ matrix.laravel != '12' }}
         run: |
           composer create-project laravel/laravel:dev-master .
           composer config repositories.bries '{"type": "path", "url": "../bries"}' --file composer.json
